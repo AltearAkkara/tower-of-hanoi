@@ -6,7 +6,7 @@ export function TitleBar() {
   return (
     <div className="titlebar" data-tauri-drag-region>
       <span className="titlebar-title" data-tauri-drag-region>
-        Hanoi Tower
+        Tower of Hanoi
       </span>
       <div className="titlebar-controls">
         <button

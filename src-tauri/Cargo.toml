@@ -4,8 +4,13 @@ version = "0.1.0"
 description = "Hanoi Tower Game"
 authors = ["you"]
 edition = "2021"
+default-run = "hanoi-tower"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "gen_stages"
+path = "src/bin/gen_stages.rs"
 
 [lib]
 # The `_lib` suffix may seem redundant but it is necessary
@@ -20,6 +25,7 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2.10.0", features = [] }
 tauri-plugin-opener = "2"
+tauri-plugin-store = "2"
 tauri-plugin-log = "2"
 log = "0.4"
 

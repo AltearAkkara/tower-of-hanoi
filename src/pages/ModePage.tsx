@@ -1,19 +1,18 @@
 import { useNavigate } from "react-router-dom";
-
-const MODES = [
-  {
-    key: "classic",
-    label: "Classic",
-    description: "3 pegs, move all disks to the last peg",
-  },
-] as const;
+import { useSettings } from "../context/SettingsContext";
 
 export function ModePage() {
   const navigate = useNavigate();
+  const { t } = useSettings();
+
+  const MODES = [
+    { key: "classic", label: t.modeClassicLabel, description: t.modeClassicDesc },
+    { key: "chaos",   label: t.modeChaosLabel,   description: t.modeChaosDesc },
+  ] as const;
 
   return (
     <main className="container">
-      <h2 className="page-heading">Select Mode</h2>
+      <h2 className="page-heading">{t.selectMode}</h2>
       <div className="mode-list">
         {MODES.map(({ key, label, description }) => (
           <button
@@ -26,8 +25,8 @@ export function ModePage() {
           </button>
         ))}
       </div>
-      <button className="back-btn" onClick={() => navigate(-1)}>
-        ← Back
+      <button className="back-btn" onClick={() => navigate("/home")}>
+        {t.back}
       </button>
     </main>
   );

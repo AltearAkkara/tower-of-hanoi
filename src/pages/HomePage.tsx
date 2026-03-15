@@ -1,23 +1,22 @@
 import { useNavigate } from "react-router-dom";
+import { useSettings } from "../context/SettingsContext";
 
 export function HomePage() {
   const navigate = useNavigate();
+  const { t } = useSettings();
 
   return (
     <main className="container home-container">
       <div className="home-title-block">
-        <h1 className="home-title">Hanoi Tower</h1>
-        <p className="home-subtitle">Move all disks to the last peg</p>
+        <h1 className="home-title">{t.homeTitle}</h1>
+        <p className="home-subtitle">{t.homeSubtitle}</p>
       </div>
       <div className="home-buttons">
         <button className="home-btn home-btn-primary" onClick={() => navigate("/mode")}>
-          Start Game
-        </button>
-        <button className="home-btn" onClick={() => navigate("/leaderboard")}>
-          Leaderboard
+          {t.startGame}
         </button>
         <button className="home-btn" onClick={() => navigate("/settings")}>
-          Settings
+          {t.settings}
         </button>
       </div>
     </main>
