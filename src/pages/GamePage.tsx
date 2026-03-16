@@ -93,6 +93,12 @@ export function GamePage() {
       const toPeg = pegs[pegIndex];
       const movingDisk = fromPeg[fromPeg.length - 1];
 
+      // Forbidden mode: only adjacent pegs allowed
+      if (mode === "forbidden" && Math.abs(selectedPeg - pegIndex) !== 1) {
+        setSelectedPeg(null);
+        return;
+      }
+
       if (toPeg.length > 0 && toPeg[toPeg.length - 1] < movingDisk) {
         setSelectedPeg(null);
         return;

@@ -102,6 +102,98 @@ fn bfs_min_moves(plates: &[Vec<u8>], n_pegs: usize) -> u32 {
     0
 }
 
+// BFS with adjacent-only constraint: can only move between pegs where |from - to| == 1.
+fn bfs_min_moves_adjacent(plates: &[Vec<u8>], n_pegs: usize) -> u32 {
+    let n_disks: usize = plates.iter().map(|p| p.len()).sum();
+    if n_disks == 0 { return 0; }
+
+    const BITS: u32 = 3;
+    const MASK: u64 = 0b111;
+
+    let mut initial = vec![0u8; n_disks];
+    for (peg_idx, peg) in plates.iter().enumerate() {
+        for &disk in peg {
+            initial[(disk - 1) as usize] = peg_idx as u8;
+        }
+    }
+
+    let encode = |state: &[u8]| -> u64 {
+        state.iter().enumerate().fold(0u64, |acc, (i, &p)| {
+            acc | ((p as u64) << (BITS * i as u32))
+        })
+    };
+
+    let goal_peg = (n_pegs - 1) as u64;
+    let goal: u64 = (0..n_disks as u32).fold(0u64, |acc, i| acc | (goal_peg << (BITS * i)));
+
+    let initial_enc = encode(&initial);
+    if initial_enc == goal { return 0; }
+
+    let mut queue: VecDeque<(u64, u32)> = VecDeque::new();
+    let mut visited: HashSet<u64> = HashSet::new();
+    queue.push_back((initial_enc, 0));
+    visited.insert(initial_enc);
+
+    while let Some((enc, moves)) = queue.pop_front() {
+        let mut tops: Vec<Option<usize>> = vec![None; n_pegs];
+        for i in 0..n_disks {
+            let peg = ((enc >> (BITS * i as u32)) & MASK) as usize;
+            if tops[peg].is_none() { tops[peg] = Some(i); }
+        }
+        for from in 0..n_pegs {
+            if let Some(disk_idx) = tops[from] {
+                for to in 0..n_pegs {
+                    // Adjacent-only constraint
+                    if (from as i32 - to as i32).abs() != 1 { continue; }
+                    if tops[to].map_or(true, |t| t > disk_idx) {
+                        let shift = BITS * disk_idx as u32;
+                        let new_enc = (enc & !(MASK << shift)) | ((to as u64) << shift);
+                        if new_enc == goal { return moves + 1; }
+                        if visited.insert(new_enc) {
+                            queue.push_back((new_enc, moves + 1));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    0
+}
+
+fn forbidden_difficulty(id: u8) -> (&'static str, u8, u8, u8, u8) {
+    match id {
+        1..=5 => ("great_owl", 7, 9,  4, 4),
+        _     => ("mad_owl",  10, 11, 4, 5),
+    }
+}
+
+fn forbidden_stage(stage_id: u8) -> serde_json::Value {
+    let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = forbidden_difficulty(stage_id);
+    let mut rng = StdRng::seed_from_u64(stage_id as u64 * 5_381 + 99_991);
+
+    let peg_count: u8 = if min_pegs == max_pegs {
+        min_pegs
+    } else {
+        rng.gen_range(min_pegs..=max_pegs)
+    };
+    let disk_count: u8 = rng.gen_range(min_disks..=max_disks);
+
+    // Classic start: all disks on peg 0, goal peg is last
+    let mut plates: Vec<Vec<u8>> = vec![Vec::new(); peg_count as usize];
+    plates[0] = (1..=disk_count).rev().collect();
+
+    let best_move = bfs_min_moves_adjacent(&plates, peg_count as usize);
+
+    serde_json::json!({
+        "stage":     stage_id,
+        "difficulty": difficulty,
+        "diskCount": disk_count,
+        "pegCount":  peg_count,
+        "plates":    plates,
+        "bestMove":  best_move,
+    })
+}
+
 fn classic_stage(stage_id: u8) -> serde_json::Value {
     let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = classic_difficulty(stage_id);
     let mut rng = StdRng::seed_from_u64(stage_id as u64 * 7_919);
@@ -197,8 +289,21 @@ fn main() {
             eprintln!("\nDone.");
             println!("{}", serde_json::to_string_pretty(&stages).unwrap());
         }
+        "forbidden" => {
+            eprint!("Generating forbidden stages...\n");
+            let stages: Vec<serde_json::Value> = (1..=8u8)
+                .map(|id| {
+                    let s = forbidden_stage(id);
+                    eprint!("\r  stage {id:2}/8  pegs={}  disks={}  best={}   ",
+                        s["pegCount"], s["diskCount"], s["bestMove"]);
+                    s
+                })
+                .collect();
+            eprintln!("\nDone.");
+            println!("{}", serde_json::to_string_pretty(&stages).unwrap());
+        }
         _ => {
-            eprintln!("Usage: gen_stages <classic|chaos>");
+            eprintln!("Usage: gen_stages <classic|chaos|forbidden>");
             std::process::exit(1);
         }
     }

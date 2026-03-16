@@ -6,9 +6,9 @@ export function ModePage() {
   const { t } = useSettings();
 
   const MODES = [
-    { key: "classic",   label: t.modeClassicLabel,   description: t.modeClassicDesc },
-    { key: "chaos",     label: t.modeChaosLabel,     description: t.modeChaosDesc },
-    { key: "forbidden",      label: t.modeForbiddenLabel,      description: t.modeForbiddenDesc,      comingSoon: true },
+    { key: "classic", label: t.modeClassicLabel, description: t.modeClassicDesc },
+    { key: "chaos", label: t.modeChaosLabel, description: t.modeChaosDesc },
+    { key: "forbidden", label: t.modeForbiddenLabel, description: t.modeForbiddenDesc },
     { key: "forgotten", label: t.modeForgottenLabel, description: t.modeForgottenDesc, comingSoon: true },
   ] as const;
 

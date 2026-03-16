@@ -41,6 +41,8 @@ export interface Translations {
   movesImproved: string;
   timeImproved: string;
   newRecord: string;
+  stagePerfect: string;
+  stageTryHarder: string;
   // Settings
   settingsTitle: string;
   language: string;
@@ -62,7 +64,7 @@ export const translations: Record<Lang, Translations> = {
     modeChaosLabel: "The Owl and Chaos world",
     modeChaosDesc: "Disks start scrambled across pegs, move all disks to the last peg",
     modeForbiddenLabel: "The Owl and Forbidden world",
-    modeForbiddenDesc: "Coming soon",
+    modeForbiddenDesc: "Can only move between adjacent pegs",
     modeForgottenLabel: "The Owl and Forgotten world",
     modeForgottenDesc: "Coming soon",
     selectStage: "Select Stage",
@@ -85,6 +87,8 @@ export const translations: Record<Lang, Translations> = {
     movesImproved: "New best moves!",
     timeImproved: "New best time!",
     newRecord: "New record!",
+    stagePerfect: "Wow",
+    stageTryHarder: "Meh",
     settingsTitle: "Settings",
     language: "Language",
     theme: "Theme",
@@ -103,7 +107,7 @@ export const translations: Record<Lang, Translations> = {
     modeChaosLabel: "นกฮูกหับโลกแห่งความโกลาหล",
     modeChaosDesc: "แผ่นกระจายอยู่แต่ละเสา ย้ายทั้งหมดไปเสาสุดท้าย",
     modeForbiddenLabel: "นกฮูกกับโลกต้องห้าม",
-    modeForbiddenDesc: "เร็วๆ นี้",
+    modeForbiddenDesc: "สามารถย้ายได้เฉพาะเสาที่ติดกันเท่านั้น",
     modeForgottenLabel: "นกฮูกกับโลกที่ถูกลืม",
     modeForgottenDesc: "เร็วๆ นี้",
     selectStage: "เลือกด่าน",
@@ -126,6 +130,8 @@ export const translations: Record<Lang, Translations> = {
     movesImproved: "สถิติครั้งใหม่!",
     timeImproved: "สถิติเวลาใหม่!",
     newRecord: "สถิติใหม่!",
+    stagePerfect: "บรรลุ",
+    stageTryHarder: "อ่อนหัด",
     settingsTitle: "ตั้งค่า",
     language: "ภาษา",
     theme: "ธีม",

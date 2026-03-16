@@ -104,7 +104,7 @@ export function StagePage() {
               {/* Header: stage number + status */}
               <div className="stage-card-header">
                 <span className="stage-num">{loading === id ? "…" : id}</span>
-                <span className="stage-status">{perfect ? "✓" : played ? "−" : ""}</span>
+                <span className="stage-status">{perfect ? t.stagePerfect : played ? t.stageTryHarder : ""}</span>
               </div>
 
               {/* Difficulty + pegs */}

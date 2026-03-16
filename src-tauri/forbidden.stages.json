@@ -1,0 +1,122 @@
+[
+  {
+    "bestMove": 123,
+    "difficulty": "great_owl",
+    "diskCount": 7,
+    "pegCount": 4,
+    "plates": [
+      [
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      []
+    ],
+    "stage": 1
+  },
+  {
+    "bestMove": 253,
+    "difficulty": "great_owl",
+    "diskCount": 9,
+    "pegCount": 4,
+    "plates": [
+      [
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      []
+    ],
+    "stage": 2
+  },
+  {
+    "bestMove": 194,
+    "difficulty": "mad_owl",
+    "diskCount": 10,
+    "pegCount": 5,
+    "plates": [
+      [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      [],
+      []
+    ],
+    "stage": 3
+  },
+  {
+    "bestMove": 236,
+    "difficulty": "mad_owl",
+    "diskCount": 11,
+    "pegCount": 5,
+    "plates": [
+      [
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      [],
+      []
+    ],
+    "stage": 4
+  },
+  {
+    "bestMove": 449,
+    "difficulty": "mad_owl",
+    "diskCount": 11,
+    "pegCount": 4,
+    "plates": [
+      [
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      []
+    ],
+    "stage": 5
+  }
+]

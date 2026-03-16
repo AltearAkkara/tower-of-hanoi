@@ -1,11 +1,13 @@
-const CLASSIC_STAGES_JSON: &str = include_str!("../classic.stages.json");
-const CHAOS_STAGES_JSON: &str = include_str!("../chaos.stages.json");
+const CLASSIC_STAGES_JSON:   &str = include_str!("../classic.stages.json");
+const CHAOS_STAGES_JSON:     &str = include_str!("../chaos.stages.json");
+const FORBIDDEN_STAGES_JSON: &str = include_str!("../forbidden.stages.json");
 
 fn get_stages_data(mode: &str) -> Vec<serde_json::Value> {
     let json = match mode {
-        "classic" => CLASSIC_STAGES_JSON,
-        "chaos"   => CHAOS_STAGES_JSON,
-        _         => return vec![],
+        "classic"   => CLASSIC_STAGES_JSON,
+        "chaos"     => CHAOS_STAGES_JSON,
+        "forbidden" => FORBIDDEN_STAGES_JSON,
+        _           => return vec![],
     };
     let parsed: serde_json::Value =
         serde_json::from_str(json).expect("stages JSON must be valid");
