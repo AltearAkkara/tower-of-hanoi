@@ -122,6 +122,10 @@ export function GamePage() {
   const modeLabel = mode === "classic" ? t.modeClassicLabel : t.modeChaosLabel;
   const snap = winSnapshot.current;
 
+  // Scale peg width so all pegs fit comfortably regardless of count
+  const pegWidth = pegCount <= 3 ? 160 : pegCount === 4 ? 130 : 105;
+  const pegLabels = ["A", "B", "C", "D", "E"];
+
   return (
     <main className="container">
       <h1>{modeLabel} — {t.stage} {stageId}</h1>
@@ -141,7 +145,7 @@ export function GamePage() {
         </div>
       </div>
 
-      <div className="board">
+      <div className="board" style={{ "--peg-width": `${pegWidth}px` } as React.CSSProperties}>
         {pegs.map((peg, pi) => (
           <div
             key={pi}
@@ -166,7 +170,7 @@ export function GamePage() {
               </div>
             </div>
             <div className="peg-base" />
-            <div className="peg-label">{["A", "B", "C"][pi]}</div>
+            <div className="peg-label">{pegLabels[pi]}</div>
           </div>
         ))}
       </div>

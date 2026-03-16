@@ -1,0 +1,209 @@
+[
+  {
+    "bestMove": 7,
+    "difficulty": "egg",
+    "diskCount": 3,
+    "pegCount": 3,
+    "plates": [
+      [
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 1
+  },
+  {
+    "bestMove": 15,
+    "difficulty": "egg",
+    "diskCount": 4,
+    "pegCount": 3,
+    "plates": [
+      [
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 2
+  },
+  {
+    "bestMove": 31,
+    "difficulty": "egg",
+    "diskCount": 5,
+    "pegCount": 3,
+    "plates": [
+      [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 3
+  },
+  {
+    "bestMove": 63,
+    "difficulty": "owlet",
+    "diskCount": 6,
+    "pegCount": 3,
+    "plates": [
+      [
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 4
+  },
+  {
+    "bestMove": 127,
+    "difficulty": "owlet",
+    "diskCount": 7,
+    "pegCount": 3,
+    "plates": [
+      [
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 5
+  },
+  {
+    "bestMove": 255,
+    "difficulty": "owlet",
+    "diskCount": 8,
+    "pegCount": 3,
+    "plates": [
+      [
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 6
+  },
+  {
+    "bestMove": 511,
+    "difficulty": "great_owl",
+    "diskCount": 9,
+    "pegCount": 3,
+    "plates": [
+      [
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 7
+  },
+  {
+    "bestMove": 1023,
+    "difficulty": "mad_owl",
+    "diskCount": 10,
+    "pegCount": 3,
+    "plates": [
+      [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 8
+  },
+  {
+    "bestMove": 2047,
+    "difficulty": "mad_owl",
+    "diskCount": 11,
+    "pegCount": 3,
+    "plates": [
+      [
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      []
+    ],
+    "stage": 9
+  },
+  {
+    "bestMove": 47,
+    "difficulty": "mad_owl",
+    "diskCount": 12,
+    "pegCount": 5,
+    "plates": [
+      [
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      [],
+      [],
+      [],
+      []
+    ],
+    "stage": 10
+  }
+]

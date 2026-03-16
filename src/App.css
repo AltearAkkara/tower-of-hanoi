@@ -293,7 +293,7 @@ button:active {
 
 .peg-area {
   position: relative;
-  width: 160px;
+  width: var(--peg-width, 160px);
   flex: 1;
   min-height: 150px;
   display: flex;
@@ -342,7 +342,7 @@ button:active {
 }
 
 .peg-base {
-  width: 160px;
+  width: var(--peg-width, 160px);
   height: 10px;
   background: var(--color-peg);
   border-radius: 5px;
@@ -610,6 +610,11 @@ button:active {
   font-size: 0.8rem;
   font-weight: 400;
   color: #888;
+}
+
+.mode-card-soon {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Difficulty page */

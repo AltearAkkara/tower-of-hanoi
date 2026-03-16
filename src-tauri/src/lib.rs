@@ -1,72 +1,21 @@
-use std::collections::{HashSet, VecDeque};
+const CLASSIC_STAGES_JSON: &str = include_str!("../classic.stages.json");
+const CHAOS_STAGES_JSON: &str = include_str!("../chaos.stages.json");
 
-const STAGES_JSON: &str = include_str!("../stages.json");
-
-fn get_stages_data() -> serde_json::Value {
-    serde_json::from_str(STAGES_JSON).expect("stages.json must be valid JSON")
-}
-
-/// BFS to find the minimum number of moves from an arbitrary peg state to goal (all on peg 2).
-fn bfs_min_moves(pegs: &[Vec<u8>]) -> u32 {
-    let n: usize = pegs.iter().map(|p| p.len()).sum();
-    if n == 0 {
-        return 0;
-    }
-
-    let encode = |state: &[u8]| -> u32 {
-        state
-            .iter()
-            .enumerate()
-            .fold(0u32, |acc, (i, &p)| acc | ((p as u32) << (2 * i as u32)))
+fn get_stages_data(mode: &str) -> Vec<serde_json::Value> {
+    let json = match mode {
+        "classic" => CLASSIC_STAGES_JSON,
+        "chaos"   => CHAOS_STAGES_JSON,
+        _         => return vec![],
     };
-
-    let mut initial = vec![0u8; n];
-    for (peg_idx, peg) in pegs.iter().enumerate() {
-        for &disk in peg {
-            initial[(disk - 1) as usize] = peg_idx as u8;
-        }
+    let parsed: serde_json::Value =
+        serde_json::from_str(json).expect("stages JSON must be valid");
+    if let Some(arr) = parsed.as_array() {
+        arr.clone()
+    } else if let Some(arr) = parsed.get(mode).and_then(|v| v.as_array()) {
+        arr.clone()
+    } else {
+        vec![]
     }
-
-    let goal: u32 = (0..n as u32).fold(0u32, |acc, i| acc | (2u32 << (2 * i)));
-    let initial_enc = encode(&initial);
-    if initial_enc == goal {
-        return 0;
-    }
-
-    let mut queue: VecDeque<(u32, u32)> = VecDeque::new();
-    let mut visited: HashSet<u32> = HashSet::new();
-    queue.push_back((initial_enc, 0));
-    visited.insert(initial_enc);
-
-    while let Some((enc, moves)) = queue.pop_front() {
-        let mut tops: [Option<usize>; 3] = [None; 3];
-        for i in 0..n {
-            let peg = ((enc >> (2 * i as u32)) & 3) as usize;
-            if tops[peg].is_none() {
-                tops[peg] = Some(i);
-            }
-        }
-        for from in 0..3usize {
-            if let Some(disk_idx) = tops[from] {
-                for to in 0..3usize {
-                    if from == to {
-                        continue;
-                    }
-                    if tops[to].map_or(true, |t| t > disk_idx) {
-                        let shift = (2 * disk_idx) as u32;
-                        let new_enc = (enc & !(3u32 << shift)) | ((to as u32) << shift);
-                        if new_enc == goal {
-                            return moves + 1;
-                        }
-                        if visited.insert(new_enc) {
-                            queue.push_back((new_enc, moves + 1));
-                        }
-                    }
-                }
-            }
-        }
-    }
-    0
 }
 
 // ── Stage commands ─────────────────────────────────────────────────────────
@@ -83,9 +32,7 @@ struct StageInfo {
 /// Returns the list of all stages with their difficulty labels and optimal move counts.
 #[tauri::command]
 fn get_stages(mode: String) -> Vec<StageInfo> {
-    let data = get_stages_data();
-    let stages = data[mode.as_str()].as_array().cloned().unwrap_or_default();
-    stages
+    get_stages_data(&mode)
         .into_iter()
         .filter_map(|s| {
             let id = s["stage"].as_u64()? as u8;
@@ -100,8 +47,7 @@ fn get_stages(mode: String) -> Vec<StageInfo> {
 /// Returns the full configuration for a stage so the frontend can start the game.
 #[tauri::command]
 fn start_stage(mode: String, stage_id: u8) -> serde_json::Value {
-    let data = get_stages_data();
-    let stages = data[mode.as_str()].as_array().cloned().unwrap_or_default();
+    let stages = get_stages_data(&mode);
     if let Some(stage) = stages.iter().find(|s| s["stage"].as_u64() == Some(stage_id as u64)) {
         serde_json::json!({
             "diskCount":   stage["diskCount"],

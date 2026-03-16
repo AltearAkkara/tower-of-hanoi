@@ -3,7 +3,16 @@ use rand::rngs::StdRng;
 use std::collections::{HashMap, HashSet, VecDeque};
 
 // (difficulty, min_disks, max_disks, min_pegs, max_pegs)
-fn stage_difficulty(id: u8) -> (&'static str, u8, u8, u8, u8) {
+fn classic_difficulty(id: u8) -> (&'static str, u8, u8, u8, u8) {
+    match id {
+        1..=4   => ("egg",       3, 5,  3, 3),
+        5..=8   => ("owlet",     6, 8,  3, 3),
+        9..=12  => ("great_owl", 7, 9,  3, 4),
+        _       => ("mad_owl",   10, 12, 3, 5),
+    }
+}
+
+fn chaos_difficulty(id: u8) -> (&'static str, u8, u8, u8, u8) {
     match id {
         1..=20  => ("egg",       3, 5,  3, 3),
         21..=45 => ("owlet",     6, 8,  3, 3),
@@ -94,7 +103,7 @@ fn bfs_min_moves(plates: &[Vec<u8>], n_pegs: usize) -> u32 {
 }
 
 fn classic_stage(stage_id: u8) -> serde_json::Value {
-    let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = stage_difficulty(stage_id);
+    let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = classic_difficulty(stage_id);
     let mut rng = StdRng::seed_from_u64(stage_id as u64 * 7_919);
 
     let peg_count: u8 = if min_pegs == max_pegs {
@@ -121,7 +130,7 @@ fn classic_stage(stage_id: u8) -> serde_json::Value {
 }
 
 fn chaos_stage(stage_id: u8) -> serde_json::Value {
-    let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = stage_difficulty(stage_id);
+    let (difficulty, min_disks, max_disks, min_pegs, max_pegs) = chaos_difficulty(stage_id);
     let mut rng = StdRng::seed_from_u64(stage_id as u64 * 6_271 + 31_337);
 
     let peg_count: u8 = if min_pegs == max_pegs {
@@ -169,19 +178,28 @@ fn chaos_stage(stage_id: u8) -> serde_json::Value {
 }
 
 fn main() {
-    let classic: Vec<serde_json::Value> = (1..=99u8).map(classic_stage).collect();
-
-    eprint!("Generating chaos stages with BFS (may take a moment for hard stages)...\n");
-    let chaos: Vec<serde_json::Value> = (1..=99u8)
-        .map(|id| {
-            let s = chaos_stage(id);
-            eprint!("\r  stage {id:2}/99  pegs={}  disks={}  best={}   ",
-                s["pegCount"], s["diskCount"], s["bestMove"]);
-            s
-        })
-        .collect();
-    eprintln!("\nDone.");
-
-    let output = serde_json::json!({ "classic": classic, "chaos": chaos });
-    println!("{}", serde_json::to_string_pretty(&output).unwrap());
+    let mode = std::env::args().nth(1).unwrap_or_default();
+    match mode.as_str() {
+        "classic" => {
+            let stages: Vec<serde_json::Value> = (1..=16u8).map(classic_stage).collect();
+            println!("{}", serde_json::to_string_pretty(&stages).unwrap());
+        }
+        "chaos" => {
+            eprint!("Generating chaos stages with BFS (may take a moment for hard stages)...\n");
+            let stages: Vec<serde_json::Value> = (1..=99u8)
+                .map(|id| {
+                    let s = chaos_stage(id);
+                    eprint!("\r  stage {id:2}/99  pegs={}  disks={}  best={}   ",
+                        s["pegCount"], s["diskCount"], s["bestMove"]);
+                    s
+                })
+                .collect();
+            eprintln!("\nDone.");
+            println!("{}", serde_json::to_string_pretty(&stages).unwrap());
+        }
+        _ => {
+            eprintln!("Usage: gen_stages <classic|chaos>");
+            std::process::exit(1);
+        }
+    }
 }

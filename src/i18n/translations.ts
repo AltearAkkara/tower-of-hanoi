@@ -13,6 +13,10 @@ export interface Translations {
   modeClassicDesc: string;
   modeChaosLabel: string;
   modeChaosDesc: string;
+  modeForbiddenLabel: string;
+  modeForbiddenDesc: string;
+  modeForgottenLabel: string;
+  modeForgottenDesc: string;
   // Stage
   selectStage: string;
   stage: string;
@@ -53,10 +57,14 @@ export const translations: Record<Lang, Translations> = {
     settings: "Settings",
     back: "← Back",
     selectMode: "Select Mode",
-    modeClassicLabel: "Classic",
-    modeClassicDesc: "3 pegs, move all disks to the last peg",
-    modeChaosLabel: "Chaos",
-    modeChaosDesc: "Disks start scrambled across two pegs",
+    modeClassicLabel: "The Owl and Classic world",
+    modeClassicDesc: "move all disks to the last peg",
+    modeChaosLabel: "The Owl and Chaos world",
+    modeChaosDesc: "Disks start scrambled across pegs, move all disks to the last peg",
+    modeForbiddenLabel: "The Owl and Forbidden world",
+    modeForbiddenDesc: "Coming soon",
+    modeForgottenLabel: "The Owl and Forgotten world",
+    modeForgottenDesc: "Coming soon",
     selectStage: "Select Stage",
     stage: "Stage",
     selectDifficulty: "Select Difficulty",
@@ -90,10 +98,14 @@ export const translations: Record<Lang, Translations> = {
     settings: "ตั้งค่า",
     back: "← กลับ",
     selectMode: "เลือกโหมด",
-    modeClassicLabel: "คลาสสิก",
-    modeClassicDesc: "3 เสา ย้ายแผ่นทั้งหมดไปยังเสาสุดท้าย",
-    modeChaosLabel: "วุ่นวาย",
-    modeChaosDesc: "แผ่นกระจายอยู่บนสองเสา ย้ายทั้งหมดไปเสาสุดท้าย",
+    modeClassicLabel: "นกฮูกกับโลกคลาสสิก",
+    modeClassicDesc: "ย้ายแผ่นทั้งหมดไปยังเสาสุดท้าย",
+    modeChaosLabel: "นกฮูกหับโลกแห่งความโกลาหล",
+    modeChaosDesc: "แผ่นกระจายอยู่แต่ละเสา ย้ายทั้งหมดไปเสาสุดท้าย",
+    modeForbiddenLabel: "นกฮูกกับโลกต้องห้าม",
+    modeForbiddenDesc: "เร็วๆ นี้",
+    modeForgottenLabel: "นกฮูกกับโลกที่ถูกลืม",
+    modeForgottenDesc: "เร็วๆ นี้",
     selectStage: "เลือกด่าน",
     stage: "ด่าน",
     selectDifficulty: "เลือกความยาก",
